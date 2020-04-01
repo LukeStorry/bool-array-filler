@@ -1,0 +1,16 @@
+button {
+  border-radius: 5px;
+  padding: 1rem;
+  background-color: #42cdef;
+  color: white;
+  border: none;
+}
+
+button:hover {
+  filter: brightness(1.2);
+}
+
+section {
+  text-align: center;
+  padding: 2rem;
+}
