@@ -4,33 +4,74 @@ import {
   Component
 } from "https://unpkg.com/htm/preact/standalone.module.js";
 
-const Counter = ({ count }) =>
-  html`
-    <h3>Count: ${count}</h3>
+const Input = ({ array, updateCallback }) => {
+
+  const updateCell = (rowIndex, colIndex) => () => {
+    array[rowIndex][colIndex] = array[rowIndex][colIndex] ? 0 : 1;
+    updateCallback(array);
+  };
+  
+  const createRow = (row, rowIndex) => html`
+    <div>
+      ${row.map(
+        (active, colIndex) => html`
+          <button
+            class=${active ? "active" : ""}
+            onClick=${updateCell(rowIndex, colIndex)}
+          />
+        `
+      )}
+    </div>
   `;
 
-const Button = ({ onClick }) =>
+  return html`
+    <section>
+      ${array.map(createRow)}
+    </section>
+  `;
+};
+
+const Output = ({ object }) =>
   html`
-    <button onClick=${onClick}>Increment</button>
+    <section>
+      <h3>Output</h3>
+      <pre>
+        <code>
+          ${JSON.stringify(object, null, 2)
+        .replace(/,\n */g, ", ")
+        .replace(/\[\n */g, "[")
+        .replace(/\n *]/g, "]\n")
+        .replace(/\n,/g, ",\n")}
+        </code>
+      </pre>
+    </section>
   `;
 
 class App extends Component {
-  Increment = () => {
-    const { count = 0 } = this.state;
-    this.setState({ count: count + 1 });
-  };
+  componentWillMount = () =>
+    this.setState({
+      array: [
+        [0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0]
+      ]
+    });
 
   render = () => html`
-    <section>
-      <${Counter} count=${this.state.count} />
-      <${Button} onClick=${this.Increment} />
-    </section>
+    <${Input}
+      array=${this.state.array}
+      updateCallback=${array => this.setState({ array })}
+    />
+    <${Output} object=${this.state.array} />
   `;
 }
 
 render(
   html`
-    <${App} />
+    <h1>Bool Array Filler</h1>
+    <main><${App} /></main>
   `,
   document.body
 );
