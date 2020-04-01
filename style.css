@@ -19,17 +19,24 @@ code {
 }
 
 button {
-  padding: 1rem;
-  margin: 1px;
-  background-color: lightgray;
+  margin: 1rem;
+  background-color: #42cdef;
   color: white;
   border: none;
-}
-button.active {
-  background-color: black;
-}
-button:hover,
-button.active:hover {
-  background-color: grey;
+  border-radius: 3px;
+  padding: 0.5rem;
+  font-weight: bold;
 }
 
+.cell {
+  margin: 1px;
+  padding: 1rem;
+  border-radius: 0;
+  background-color: lightgray;
+}
+.cell.active {
+  background-color: black;
+}
+button:hover {
+  background-color: grey;
+}
