@@ -6,22 +6,26 @@ import {
 
 const Resizer = ({ array, updateCallback }) => {
   const setWidth = (n) => {
-    if (n > array[0].length)
-      array = array.map((r) => r.concat(Array(n - array[0].length).fill(0)));
-    if (n < array[0].length)
+    if (n > array[0].length) {
+      const newCells = Array(n - array[0].length).fill(0);
+      array = array.map((r) => r.concat(newCells));
+    }
+    if (n < array[0].length) {
       array = array.map((r) => r.slice(0, n - array[0].length));
+    }
 
     updateCallback(array);
   };
 
   const setHeight = (n) => {
-    if (n > array.length)
-      array = array.concat(
-        Array.from({ length: n - array.length }, () =>
-          Array(array[0].length).fill(0)
-        )
-      );
-    if (n < array.length) array = array.slice(0, n - array.length);
+    if (n > array.length) {
+      const newRow = () => Array(array[0].length).fill(0);
+      const newRows = Array.from({ length: n - array.length }, newRow);
+      array = array.concat(newRows);
+    }
+    if (n < array.length) {
+      array = array.slice(0, n - array.length);
+    }
 
     updateCallback(array);
   };
@@ -100,17 +104,9 @@ const Output = ({ object }) =>
 class App extends Component {
   componentWillMount = () =>
     this.setState({
-      array: [
-        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-      ],
+      array: Array.from({ length: 12 }, () =>
+        Array.from({ length: 12 }, () => 0)
+      ),
     });
 
   render = () => html`
