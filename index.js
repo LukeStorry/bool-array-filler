@@ -1,25 +1,53 @@
 import {
   html,
   render,
-  Component
+  Component,
 } from "https://unpkg.com/htm/preact/standalone.module.js";
 
-const ResizerButtons = ({ array, updateCallback }) => {
-  const addWidth = () => updateCallback(array.map(r => r.concat([0])));
+const Resizer = ({ array, updateCallback }) => {
+  const setWidth = (n) => {
+    if (n > array[0].length)
+      array = array.map((r) => r.concat(Array(n - array[0].length).fill(0)));
+    if (n < array[0].length)
+      array = array.map((r) => r.slice(0, n - array[0].length));
 
-  const removeWidth = () => updateCallback(array.map(r => r.slice(0, -1)));
+    updateCallback(array);
+  };
 
-  const addHeight = () =>
-    updateCallback(array.concat([Array(array[0].length).fill(0)]));
+  const setHeight = (n) => {
+    if (n > array.length)
+      array = array.concat(
+        ...Array(n - array.length).fill([Array(array[0].length).fill(0)])
+      );
+    if (n < array.length) array = array.slice(0, n - array.length);
 
-  const removeHeight = () => updateCallback(array.slice(0, -1));
+    updateCallback(array);
+  };
+
+  const clamped = (n) => Math.min(Math.max(n, 1), 99);
 
   return html`
-    <div>
-      <button onClick=${addWidth}>+ width</button>
-      <button onClick=${removeWidth}>- width</button>
-      <button onClick=${addHeight}>+ height</button>
-      <button onClick=${removeHeight}>- height</button>
+    <div class="resizer">
+      <div>
+        <label>Width</label>
+        <input
+          onChange=${(e) => setWidth(clamped(e.target.value))}
+          type="number"
+          value=${array[0].length}
+          min="1"
+          max="99"
+        />
+      </div>
+      <div>
+        <label>Height</label>
+        <input
+          onChange=${(e) => setHeight(clamped(e.target.value))}
+          type="number"
+          value=${array.length}
+          min="1"
+          max="99"
+        />
+      </div>
     </div>
   `;
 };
@@ -46,7 +74,7 @@ const Input = ({ array, updateCallback }) => {
   return html`
     <section>
       ${array.map(createRow)}
-      <${ResizerButtons} array=${array} updateCallback=${updateCallback} />
+      <${Resizer} array=${array} updateCallback=${updateCallback} />
     </section>
   `;
 };
@@ -79,14 +107,14 @@ class App extends Component {
         [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
         [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
         [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-      ]
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      ],
     });
 
   render = () => html`
     <${Input}
       array=${this.state.array}
-      updateCallback=${array => this.setState({ array })}
+      updateCallback=${(array) => this.setState({ array })}
     />
     <${Output} object=${this.state.array} />
   `;

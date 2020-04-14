@@ -24,8 +24,9 @@ button {
   color: white;
   border: none;
   border-radius: 3px;
-  padding: 0.5rem;
-  font-weight: bold;
+  height: 30px;
+  width: 30px;
+  text-align: center;
 }
 
 .cell {
@@ -39,4 +40,25 @@ button {
 }
 button:hover {
   background-color: grey;
+}
+
+input {
+  text-align: center;
+  background-color: whitesmoke;
+  border-radius: 5px;
+  border: solid 1px grey;
+  padding: 5px;
+  width: 3rem;
+  margin: 1rem;
+}
+.resizer {
+  margin: 2rem;
+  display: flex;
+  justify-content: center;
+}
+.resizer div {
+  max-width: 8rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
