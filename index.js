@@ -17,7 +17,9 @@ const Resizer = ({ array, updateCallback }) => {
   const setHeight = (n) => {
     if (n > array.length)
       array = array.concat(
-        ...Array(n - array.length).fill([Array(array[0].length).fill(0)])
+        Array.from({ length: n - array.length }, () =>
+          Array(array[0].length).fill(0)
+        )
       );
     if (n < array.length) array = array.slice(0, n - array.length);
 
