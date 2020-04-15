@@ -11,7 +11,9 @@ const Resizer = ({ array, updateCallback }) => {
       array = array.map((r) => r.concat(newCells));
     }
 
-    if (n < array[0].length) array = array.map((r) => r.slice(0, n - array[0].length));
+    if (n < array[0].length) {
+      array = array.map((r) => r.slice(0, n - array[0].length));
+    }
 
     updateCallback(array);
   };
@@ -23,7 +25,9 @@ const Resizer = ({ array, updateCallback }) => {
       array = array.concat(newRows);
     }
     
-    if (n < array.length) array = array.slice(0, n - array.length);
+    if (n < array.length) {
+      array = array.slice(0, n - array.length);
+    }
 
     updateCallback(array);
   };
