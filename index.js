@@ -63,7 +63,7 @@ const Resizer = ({ array, updateCallback }) => {
 let mouseDown = false;
 
 const Input = ({ array, updateCallback }) => {
-  const updateCell = (rowIndex, colIndex) => () => {
+  const updateCell = (rowIndex, colIndex) => {
     array[rowIndex][colIndex] ^= 1;
     updateCallback(array);
   };
