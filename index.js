@@ -24,7 +24,7 @@ const Resizer = ({ array, updateCallback }) => {
       const newRows = Array.from({ length: n - array.length }, newRow);
       array = array.concat(newRows);
     }
-    
+
     if (n < array.length) {
       array = array.slice(0, n - array.length);
     }
@@ -61,7 +61,7 @@ const Resizer = ({ array, updateCallback }) => {
 };
 
 const Input = ({ array, updateCallback }) => {
-  const updateCell = (rowIndex, colIndex) => () => {
+  const updateCell = (rowIndex, colIndex) => {
     array[rowIndex][colIndex] ^= 1;
     updateCallback(array);
   };
@@ -72,7 +72,9 @@ const Input = ({ array, updateCallback }) => {
         (active, colIndex) => html`
           <button
             class=${active ? "active cell" : "cell"}
-            onClick=${updateCell(rowIndex, colIndex)}
+            onMouseOver=${(e) => {
+              if (e.buttons) updateCell(rowIndex, colIndex);
+            }}
           />
         `
       )}
