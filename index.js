@@ -24,7 +24,7 @@ const Resizer = ({ array, updateCallback }) => {
       const newRows = Array.from({ length: n - array.length }, newRow);
       array = array.concat(newRows);
     }
-    
+
     if (n < array.length) {
       array = array.slice(0, n - array.length);
     }
@@ -60,17 +60,9 @@ const Resizer = ({ array, updateCallback }) => {
   `;
 };
 
-let mouseDown = false;
-let dragType = 1;
-
 const Input = ({ array, updateCallback }) => {
   const updateCell = (rowIndex, colIndex) => {
     array[rowIndex][colIndex] ^= 1;
-    updateCallback(array);
-  };
-
-  const updateCellDrag = (rowIndex, colIndex) => {
-    array[rowIndex][colIndex] = dragType;
     updateCallback(array);
   };
 
@@ -80,19 +72,8 @@ const Input = ({ array, updateCallback }) => {
         (active, colIndex) => html`
           <button
             class=${active ? "active cell" : "cell"}
-            onClick=${() => {updateCell(rowIndex, colIndex)}}
-            onMouseDown=${() => {
-              mouseDown = true;
-              dragType = !array[rowIndex][colIndex]
-              updateCell(rowIndex, colIndex);
-            }}
-            onMouseUp=${() => {
-              mouseDown = false;
-            }}
-            onMouseOver=${() => {
-              if (mouseDown) {
-                updateCellDrag(rowIndex, colIndex);
-              }
+            onMouseOver=${(e) => {
+              if (e.buttons) updateCell(rowIndex, colIndex);
             }}
           />
         `
