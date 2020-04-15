@@ -66,7 +66,7 @@ const Input = ({ array, updateCallback }) => {
     updateCallback(array);
   };
 
-  const cellSize = Math.min(30, 0.7 * window.innerWidth / array[0].length - 1);
+  const cellSize = (0.7 * window.innerWidth) / array[0].length - 4;
 
   const createRow = (row, rowIndex) => html`
     <div>
