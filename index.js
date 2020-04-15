@@ -58,8 +58,11 @@ const Resizer = ({ array, updateCallback }) => {
   `;
 };
 
+let mouseDown = false;
+
 const Input = ({ array, updateCallback }) => {
-  const updateCell = (rowIndex, colIndex) => () => {
+
+  const updateCell = (rowIndex, colIndex) => {
     array[rowIndex][colIndex] = array[rowIndex][colIndex] ? 0 : 1;
     updateCallback(array);
   };
@@ -70,7 +73,19 @@ const Input = ({ array, updateCallback }) => {
         (active, colIndex) => html`
           <button
             class=${active ? "active cell" : "cell"}
-            onClick=${updateCell(rowIndex, colIndex)}
+            onClick=${() => {updateCell(rowIndex, colIndex)}}
+            onMouseDown=${() => {
+              mouseDown = true;
+              updateCell(rowIndex, colIndex);
+            }}
+            onMouseUp=${() => {
+              mouseDown = false;
+            }}
+            onMouseOver=${() => {
+              if (mouseDown) {
+                updateCell(rowIndex, colIndex);
+              }
+            }}
           />
         `
       )}
