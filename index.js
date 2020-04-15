@@ -10,9 +10,8 @@ const Resizer = ({ array, updateCallback }) => {
       const newCells = Array(n - array[0].length).fill(0);
       array = array.map((r) => r.concat(newCells));
     }
-    if (n < array[0].length) {
-      array = array.map((r) => r.slice(0, n - array[0].length));
-    }
+
+    if (n < array[0].length) array = array.map((r) => r.slice(0, n - array[0].length));
 
     updateCallback(array);
   };
@@ -23,9 +22,8 @@ const Resizer = ({ array, updateCallback }) => {
       const newRows = Array.from({ length: n - array.length }, newRow);
       array = array.concat(newRows);
     }
-    if (n < array.length) {
-      array = array.slice(0, n - array.length);
-    }
+    
+    if (n < array.length) array = array.slice(0, n - array.length);
 
     updateCallback(array);
   };
@@ -60,7 +58,7 @@ const Resizer = ({ array, updateCallback }) => {
 
 const Input = ({ array, updateCallback }) => {
   const updateCell = (rowIndex, colIndex) => () => {
-    array[rowIndex][colIndex] = array[rowIndex][colIndex] ? 0 : 1;
+    array[rowIndex][colIndex] ^= 1;
     updateCallback(array);
   };
 
