@@ -66,11 +66,14 @@ const Input = ({ array, updateCallback }) => {
     updateCallback(array);
   };
 
+  const cellSize = Math.min(30, 0.7 * window.innerWidth / array[0].length - 1);
+
   const createRow = (row, rowIndex) => html`
     <div>
       ${row.map(
         (active, colIndex) => html`
           <button
+            style="width:${cellSize}px; height:${cellSize}px;"
             class=${active ? "active cell" : "cell"}
             onMouseDown=${() => updateCell(rowIndex, colIndex)}
             onMouseOver=${(e) => {
