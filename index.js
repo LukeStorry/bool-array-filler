@@ -61,10 +61,16 @@ const Resizer = ({ array, updateCallback }) => {
 };
 
 let mouseDown = false;
+let dragType = 1;
 
 const Input = ({ array, updateCallback }) => {
   const updateCell = (rowIndex, colIndex) => {
     array[rowIndex][colIndex] ^= 1;
+    updateCallback(array);
+  };
+
+  const updateCellDrag = (rowIndex, colIndex) => {
+    array[rowIndex][colIndex] = dragType;
     updateCallback(array);
   };
 
@@ -77,6 +83,7 @@ const Input = ({ array, updateCallback }) => {
             onClick=${() => {updateCell(rowIndex, colIndex)}}
             onMouseDown=${() => {
               mouseDown = true;
+              dragType = !array[rowIndex][colIndex]
               updateCell(rowIndex, colIndex);
             }}
             onMouseUp=${() => {
@@ -84,7 +91,7 @@ const Input = ({ array, updateCallback }) => {
             }}
             onMouseOver=${() => {
               if (mouseDown) {
-                updateCell(rowIndex, colIndex);
+                updateCellDrag(rowIndex, colIndex);
               }
             }}
           />
