@@ -64,8 +64,8 @@ const Input = ({ array, updateCallback }) => {
 
   const handleDrag = (rowIndex, colIndex) => (e) => {
     if (e.buttons) {
-      const previousActive = e.fromElement.className.includes("active");
-      array[rowIndex][colIndex] = previousActive ? 1 : 0;
+      const cellDraggedFrom = (e.fromElement || e.relatedTarget).className;
+      array[rowIndex][colIndex] = cellDraggedFrom.includes("active") ? 1 : 0;
       updateCallback(array);
     }
   };
